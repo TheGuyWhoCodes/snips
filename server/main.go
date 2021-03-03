@@ -27,6 +27,7 @@ func generateKey() string {
 	if err != nil {
 		panic(err)
 	}
+
 	defer adj.Close()
 
 	noun, err := os.Open("./prefix/noun.txt")
@@ -34,6 +35,7 @@ func generateKey() string {
 	if err != nil {
 		panic(err)
 	}
+
 	defer noun.Close()
 
 	var adjs []string
@@ -49,7 +51,6 @@ func generateKey() string {
 		nouns = append(nouns, scannerNoun.Text())
 	}
 
-	rand.Seed(time.Now().Unix())
 	title += strings.Title(adjs[rand.Int()%len(adjs)])
 	title += strings.Title(adjs[rand.Int()%len(adjs)])
 	title += strings.Title(nouns[rand.Int()%len(nouns)])
@@ -58,12 +59,12 @@ func generateKey() string {
 }
 
 func writeBody(w http.ResponseWriter, r *http.Request) {
-	// decoder := json.NewDecoder(r.Body)
-	// var t POSTStruct
-	// err := decoder.Decode(&t)
-	// if err != nil {
-	// 	panic(err)
-	// }
+	decoder := json.NewDecoder(r.Body)
+	var t POSTStruct
+	err := decoder.Decode(&t)
+	if err != nil {
+		panic(err)
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
@@ -71,11 +72,11 @@ func writeBody(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	rand.Seed(time.Now().UTC().UnixNano())
 	port := os.Getenv("PORT")
 
 	if port == "" {
 		port = "9000"
-		// log.Fatal("$PORT must be set")
 	}
 
 	// Generates new router for api to use
