@@ -5,7 +5,7 @@
 <div class = "container">
 	<div class="md-form">
 		<label for="form7">New Snip</label>
-		<textarea id="form7" class="md-textarea form-control" rows="20"></textarea>
+		<textarea (input)="body=$event.target.value" id="form7" class="md-textarea form-control" rows="20"></textarea>
 	</div>
-	<button type="button" class="btn btn-primary submit">Submit!</button>
+	<button (click)="submitPost()" type="button" class="btn btn-primary submit">Submit!</button>
 </div>

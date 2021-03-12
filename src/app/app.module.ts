@@ -8,21 +8,31 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DisplayComponent } from './pages/display/display.component';
 import { RawComponent } from './pages/raw/raw.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     DisplayComponent,
-    RawComponent
+    RawComponent,
+    HighlightModule
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [    {
+    provide: HIGHLIGHT_OPTIONS,
+    useValue: {
+      fullLibraryLoader: () => import('highlight.js'),
+    }
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
